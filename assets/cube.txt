@@ -1,0 +1,31 @@
+*** Object definition file ***
+
+ 1,  * Number of objects in file
+
+* OBJECT #1 (CUBE):
+
+   8,  * Number of vertices in object #0
+
+     * Vertices for object 0:
+
+      -10,10,-10,  * Vertex #0
+      10,10,-10,   * Vertex #1
+      10,10,10,    * Vertex #2
+      -10,10,10,   * Vertex #3
+      -10,-10,-10, * Vertex #4
+      10,-10,-10,  * Vertex #5
+      10,-10,10,   * Vertex #6
+      -10,-10,10,  * Vertex #7
+
+    6,  * Number of polygons for object 0
+
+      * Polygons for object 0:
+
+      4, 0,1,5,4, 1,
+      4, 5,6,7,4, 2,
+      4, 6,2,3,7, 3,
+      4, 2,1,0,3, 4,
+      4, 2,6,5,1, 5,
+      4, 4,7,3,0, 6,
+
+      1,        * Yes, use backface removal
