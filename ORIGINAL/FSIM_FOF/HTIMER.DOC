@@ -1,0 +1,347 @@
+ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+º               HTimer Hi-Resolution Microsecond Timing Class              º
+º                       for use with Borland C++ 3.x                       º
+º                                                                          º
+º                     Version 1.1 - September 21, 1992                     º
+ÇÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¶
+º                          Betz Associates, Inc.                           º
+º                          120 North Shore Road                            º
+º                           Derry, N.H.  03038                             º
+º                              603-898-8806                                º
+º                         email @ CIS: 76605,2346                          º
+º                                                                          º
+º       Contract Development for the Entertainment Software Industry       º
+ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+
+Contents:     Topic                                     Section
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+              Description and Definition -------------- A
+
+                 Class Description -------------------- A1
+                 Problem Definition ------------------- A2
+                 Class Specification ------------------ A3
+                 Adherence to Specification ----------- A4
+
+              Class Operation ------------------------- B
+
+                 Hardware Interface ------------------- B1
+
+                    Description of 8253/8254 timers --- B1a
+                    Hardware Initialization ----------- B1b
+                    Programming Considerations -------- B1c
+
+                 Application Programming Interface ---- B2
+                 Timer Restrictions ------------------- B3
+
+              Changes in this Version ----------------- C
+              File List ------------------------------- D
+              Copyrights and Disclaimers -------------- E
+              References ------------------------------ F
+              About the Programs ---------------------- G
+                 TMRTEST ------------------------------ G1
+                 TMREXAM ------------------------------ G2
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+
+A. Class Description, Problem Definition, and Class Specification
+
+   A1. Description
+
+   The HTimer class is a single class which provides a hi-resolution event
+   timer. Up to 255 timers can be instanced and run concurrently with no
+   additional overhead. The HTimer class handles hardware interface actions
+   transparently in almost all applications, and provides a maximum timing
+   resolution of +/- 1 microsecond at an approximate accuracy of +/- 0.05
+   percent of "true" time. The class can be used in any of the memory
+   models supported by Borland C++ 3.1. The class has not been tested in
+   any processor mode other than real.
+
+   A2. Problem Definition
+
+   Often during the development of high-performance or realtime software it
+   is necessary to know the duration of events with a high degree of accu-
+   racy. The PC/AT/80x86 architecture provides several levels of hardware
+   and software driven event timing, but the PC-BIOS and MS-DOS provide
+   system support for low-resolution timing only. BIOS subfunctions of
+   function 1Ah can read and write the real-time clock, but the maximum
+   resolution obtainable is +/- 1 second. By reading the 32-bit time counter
+   maintained by the BIOS at memory location 0040h:006Ch a program can
+   obtain a "time tick" once every 54.94 milliseconds (approx.). Higher
+   resolution is available with DOS function 21h, subfunction 2Ch, which can
+   provide timing down to 1/100 second, but still this is too slow for many
+   purposes, and the overhead of the call to DOS is high. Fortunately the
+   Intel 8253/8254 timer chip used in the PC/AT provides access to a clock
+   pulse running at 1.193180 Mhz, through which we can obtain a timing
+   resolution of 1 microsecond or less. In order to take advantage of this
+   hardware capability a program must provide it's own driver code for the
+   timer chip.
+
+   A3. Specification
+
+   The HTimer class is an attempt to encapsulate the necessary functions
+   for hi-resolution timing on the PC. During it's design the following
+   specification was used as a baseline goal for the class:
+
+      - minimum timing resolution of 1 microsecond
+      - maximum deviation +/- 0.05 percent of true time
+      - transparent encapsulation of hardware interface activity
+      - support for multiple concurrently running timers
+      - class extensibility
+      - useable in large, medium, and small model programs
+      - low code space requirements/simplicity
+
+   A4. Adherence to Specification
+
+   This class fulfills these requirements in most cases. The following are
+   areas in which the class design does not fully satisfy the specification:
+
+      - When running the included testbed program the timer exhibits a
+        maximum deviation of +/- 0.04 percent. This is just within the
+        specified range. To determine accuracy the test program times
+        a single tick of the bios system time counter. In theory this
+        event should require 1,000,000/18.2 second, 54.94 milliseconds,
+        or 54945.05 microseconds. Since the system time tick frequency
+        can vary by more than .05 percent without affecting the operation
+        of the system it is impossible to guarantee this as a standard
+        against which to test.
+
+      - Encapsulation of the hardware interface activity is to some extent
+        transparent to the user. However, if the using program intends to
+        alter the timer frequency or the handler for IRQ 0 (interrupt 8),
+        then it must follow certain conventions described below in order
+        to maintain correct operation of the timer class.
+
+B. Class Operation
+
+   B1. Hardware Interface
+
+      B1a. Description of the Intel 8254 Programmable Timer
+
+      The Intel 8253/8254 Programmable Timers provide software controlled
+      clock pulses to the PC/AT system board. The package consists of three
+      programmable timer elements, each of which is made up of a 16-bit
+      Counter Element (CE), latches, and various control elements. Timer 0
+      provides the system time-of-day clock pulse, timer 1 is programmed by
+      the BIOS to request RAM refresh, and timer 2 is hard-wired for control
+      of the internal speaker.
+
+      All three of the internal timers are programmable Countdown Timers.
+      Each timer is provided with a 1.193180 Mhz input pulse from SYSCLK.
+      Depending on the mode of operation the timer decrements it's internal
+      counter on each pulse. The Initial Count value loaded into the CE at
+      the start of a timing period is programmed into the timer, and held
+      in it's internal latches for reuse. In the case of timer 0 the default
+      mode of operation is mode 3 (Square Wave Generator). In this mode timer
+      0 operation is as follows: CLKOUT starts high. On each pulse of the
+      input signal the CE is decremented by 2. At terminal count (0) CLKOUT
+      is lowered and the Initial Count is reloaded into CE, and is then dec-
+      remented by 2 until terminal count is reached again. At this point,
+      CLKOUT is raised to generate the time-of-day interrupt on IRQ level 0,
+      the Initial Count is reloaded into the CE, and the procedure repeats
+      indefinitely.
+
+      Mode 2 (Pulse Rate Generator) is a preferable mode for hi-resolution
+      timing, since in this mode the counter is decremented by 1 on each
+      pulse of the input signal, and there is no need to divide by two to
+      get a raw elapsed counter value.
+
+      For details on programming the 8253/8254 Programmable Timers please
+      consult the references listed at the end of this document.
+
+      B1b. HTimer Hardware Initialization
+
+      In order to perform accurate, long-duration timing the HTimer class
+      must at some point perform some reprogramming of the 8253/8254 timer
+      chip. The first requirement is that timer channel 0 be programmed to
+      operate in the more accurate Mode 2. Secondly, in order to exceed the
+      16-bit capacity of the counting element and provide for long-duration
+      timing it is necessary to hook into the IRQ 0 interrupt vector and
+      track the number of interrupts generated. Finally, on shutdown the
+      timer must be reprogrammed to it's defaults, and the original IRQ 0
+      interrupt vector must be restored.
+
+      The implementation of these housekeeping chores in HTimer is nearly
+      transparent to the using program. Exceptions to this will be discussed
+      below. Whenever an instance of an HTimer is created it checks a static
+      member variable of the class to see if it is the first instance. If
+      so, it performs the reprogramming of the timer, and sets up the ISR
+      for the timer interrupt. When the instance is destroyed it again checks
+      the static member variable, this time to see if it is the last instance.
+      If so, it reprograms the timer chip to it's defaults, and restores the
+      interrupt vector.
+
+      B1c. Considerations for Programs Using the Timer Hardware
+
+      The exception to the above statement involves programs which are using
+      the timer for purposes other than running the HTimer class. If the
+      using program needs to alter the frequency of the timer interrupt it
+      MUST DO SO USING THE SUPPLIED MEMBER FUNCTION HTimer::setCount(). If
+      this convention is not followed the HTimer class will produce incorrect
+      results. This is due to the fact that the class _must_ know the number
+      of pulses per interrupt in order to calculate elapsed time. Similarly,
+      if the using program requires the timer interrupt vector for it's
+      own use it MUST HOOK THE VECTOR BEFORE INSTANCING AN HTimer OBJECT. The
+      HTimer class maintains it's own short handler for IRQ 0 (int 8) in
+      order to count raw interrupt frequency. Therefore this handler must be
+      the FIRST HANDLER IN THE CHAIN FOR IRQ 0.
+
+   B2. Application Programming Interface
+
+   Access to the functions of the HTimer class is through the defined member
+   function interface. The following functions are available to application
+   programs:
+
+      void HTimer::timerOn()
+
+         The timerOn() function starts a new timing process. This function
+         must be called at least once after instancing an HTimer object.
+
+         Parameters: None
+         Returns:    Nothing
+
+      dword HTimer::timerOff()
+
+         The timerOff() function stops the current timing process, resets
+         the internal timer parameters, and returns the elapsed time count.
+
+         Parameters: None
+         Returns:    32-bit elapsed time count in microseconds
+
+      dword HTimer::getElapsed()
+
+         The getElapsed() function calculates and returns the current elapsed
+         time without disrupting the current timing process. After the func-
+         tion returns the timer continues to run, the internal count is not
+         reset, and the next call to either getElapsed() or timerOff() will
+         return the TOTAL accumulated microsecond count for the run, inc-
+         luding totals returned by earlier calls to getElasped().
+
+         Parameters: None
+         Returns:    32-bit elapsed time count in microseconds
+
+      void HTimer::setCount(word regCount)
+
+         The setCount() function is provided in order to allow applications
+         programs to alter the Counter Element Initial Count, and therefore
+         the frequency of IRQ 0 interrupts. Access to the CE MUST be made
+         through this member function, or the HTimer class will not provide
+         accurate timing results.
+
+         Parameters: regCount, 16-bit Initial Count value for timer 0 CE
+         Returns:    Nothing
+
+   B3. Timer Restrictions
+
+   In addition to the hardware restrictions discussed above, the HTimer
+   class is also restricted in terms of the maximum duration of a timing
+   run, based on the frequency of the timer interrupts generated on IRQ 0.
+   The minium value is always 0, and the maximum can be calculate with the
+   following formula:
+
+                      maxT = (2^32 * (1,000,000/f))
+
+   Where maxT is the maximum elapsed time in microseconds, and f is the
+   frequency of the IRQ 0 interrupt in hz. In the case of the standard
+   interrupt frequency of 18.2 hz the timer can accumlate up to 2.358 E14
+   microseconds. In the case of the maximum theoretical interrupt rate of
+   1,193,180 hz. the timer is capable of accumulating 3,599,597 microsecs
+   for a maximum timing duration of only 3.59 seconds. However, since the
+   PC architecture will not support this theoretical maximum interrupt rate
+   the effective minimum duration is much higher.
+
+   Note that, in order to avoid overflowing the 32-bit elapsed time accum-
+   ulators, it is necessary to use a different method of microsecond
+   conversion for raw pulse counts over 4,294,967. This involves basically
+   reversing the order of division and multiplication, and results in a
+   small loss of precision for timing runs over 4 seconds in duration. See
+   the implementation of HTimer::calcElapsed() in HTIMER.CPP for details.
+
+C. Changes in this Version
+
+   Version 1.1 is a complete replacement for version 1.0. You have version
+   1.0 if the archive is dated earlier than Sept. 1, 1992, and does not
+   contain the files TYPES.H, HTIMER.OBJ, or HTIMER.DOC. Problems corrected
+   in, and changes made to, this class are listed below:
+
+   - Included TYPES.H file missing from version 1.0 archive.
+   - Added a function to poll the timer for the elapsed time without dis-
+     rupting the current timing run.
+   - Implemented an interrupt handler to collect raw interrupt counts. The
+     previous version could be confused if the interrupt rate was changed
+     from the default.
+   - Added code to handle wrap in the interrupt counter.
+   - Added code to allow changing the interrupt rate by altering the counter
+     value for timer channel 0.
+   - Removed the elapsed time calculation to a seperate function.
+   - Tested compilation in all memory models.
+   - Created a testbed program.
+   - Created an example program.
+   - Added documentation.
+   - Fixed bug in elapsed time calculation.
+
+D. List of Files in Archive HTIMER.ZIP
+
+   HTIMER.H      - Header file for HTimer class definition
+   HTIMER.CPP    - Function definitions for HTimer class
+   HTIMER.OBJ    - HTimer large model object module
+   HTIMER.DOC    - HTimer documentation
+   TMRTEST.CPP   - HTimer testbed program
+   TMRTEST.PRJ   - Borland C++ 3.1 project file for test program
+   TYPES.H       - Header file containing generic types
+   TMREXAM.CPP   - HTimer example program
+   TMREXAM.PRJ   - Borland C++ 3.1 project file for example program
+
+E. Copyrights and Disclaimer
+
+   The HTimer class, source code, and documentation is released to the
+   Public Domain. This source code and associated object modules are offered
+   without warranty or guarantee of any kind, express or implied. Also,
+   the author(s) and Betz Associates, Inc. expressly disclaim any resulting
+   consequences of the use of this source code and related object modules
+   in any product, public domain, shareware, or commercial.
+
+   USE OF THIS PRODUCT IS UNDERTAKEN SOLELY AT THE RISK OF THE USER.
+
+F. References
+
+   Software engineers desiring to learn more about the Intel 8253/8254
+   programmable timers, and their implementation in the IBM PC/AT comp-
+   atible architecture, are directed to the following sources:
+
+      Intel Peripheral Components Handbook 1991
+      ISBN# 1-55512-127-6
+      Intel order# 296467-002
+
+      IBM Technical Reference, Personal Computer AT
+      IBM Personal Computer Hardware Reference Library# 6280070
+
+      The New Peter Norton Programmer's Guide to the IBM PC & PS/2
+      Microsoft Press, by Richard Wilton
+      ISBN# 1-55615-131-4
+
+      PC System Programming, Abacus, by Michael Tischer
+      ISBN# 1-55755-035-2
+
+G. About the Programs
+
+   G1. TMRTEST
+
+   TMRTEST is a simple test program for the HTimer class. The program
+   performs three tests in sequence, and reports the results to stdio.
+   All three tests time the duration of one bios time tick. On the PC
+   and AT this interval should be very close to 54,945 microseconds.
+   The first test times the interval by starting and stopping the timer.
+   The second test starts the timer, then polls the timer for the current
+   elapsed time, leaving the timer running. The third test checks the
+   ability of the timer class to handle a faster interrupt rate. Before
+   calling this test function the test program hooks the vector for
+   interrupt 8 to a short handler which ensures that the _system_ handler
+   for this interrupt continues to be called at a frequency of 18.2 hz.
+   It then calls the test function, which cranks the timer interrupt up
+   to 76.2 hz, and times the duration of a bios time tick.
+
+   G2. TMREXAM
+
+   TMREXAM is a simple example program demonstrating how to instance
+   three timers, time several actions, and report the results.
+
+

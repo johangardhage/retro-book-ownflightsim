@@ -1,0 +1,398 @@
+This is the readme file for v2.20 of DiamondWare's Sound ToolKit.  READ.ME
+was finalized on 10/25/95.
+
+A product like the Sound ToolKit is a complicated beast.  We can't emphasize
+the importance of reading the documentation enough.  There are many caveats,
+and subtle ways to improve the performance of your application in the docs.
+We didn't go to all the effort of writing, just so everyone wouldn't read
+anyway.  READ THE MANUAL! <g>
+
+This file is an appendix, and is intended primarily for users who are already
+familiar with the documentation.
+
+The shareware on-line documentation is up to date.  The printed manual
+is mostly up to date, but does not discuss the new DSP code, a new VOC2DWD
+command-line option, or the new Borland Pascal protected-mode support.	And
+there are two corrections to it as well.  For this information, or if you're
+upgrading from a previous version of the STK, read on!	Otherwise, we suggest
+the full documentation, plus the relevant sample source files.	It's good
+stuff, designed to get you up and running ASAP.
+
+
+
+==============================
+If you're upgrading from v1.00
+==============================
+
+Improvements
+------------
+
+The API did not change, and no working code was broken.
+
+
+  o  The STK now allows re-entrancy.
+
+  o  dws_DetectHardWare checks the BLASTER environment variable.
+
+  o  The bass drum is louder, deeper, and punchier.
+
+  o  The STK checks the interrupt flag before some STK functions.
+
+  o  We added OPLKBD.EXE (registered version only).
+
+  o  The music playback is now more sensitive to note velocities.
+
+
+You can now call any STK function from any background task, including an ISR.
+If the STK can't deal with the call right then, it will return a (new) error.
+dws_BUSY means that you should call again later (your next timer tick, or
+some other soon time).  IF YOU'RE CALLING THE STK ONLY FROM THE FOREGROUND,
+THIS ERROR CANNOT OCCUR.
+
+PLAYDWM and PLAYDWD have been updated to show detection of this new error
+condition (although neither program can actually generate it).
+
+dws_DetectHardWare now uses the BLASTER environment variable to help it find
+sound boards.  It looks for the sound board's port at the address specified
+in the BLASTER variable.  It will also use the BLASTER's IRQ and DMA settings
+as a last resort--if it's unable to find them from examining the hardware.
+
+When you call dws_DetectHardWare, dws_Init, or dws_Kill, interrupts must
+be enabled.  If they're not, you'll get a (new) error.  dws_IRQDISABLED means
+that IRQs are disabled--but in order to work properly, the STK function you
+just called requires them to be _enabled_.  This error shouldn't occur,
+unless you're developing interrupt service routines, and other non-mainstream
+code.
+
+For registered users, we added a new program: OPLKBD.EXE.  This allows you
+to load an .IBK file, and "play" notes from it on your 101 keyboard (including
+polyphony.)  It's useful for tweaking .IBK files.
+
+
+
+Bugs Fixed
+----------
+
+  o  MID2DWM.EXE no longer requires an FPU.
+
+  o  Some "clickiness" in music playback was eliminated.
+
+  o  SB16 mixer settings now restored properly upon dws_Kill.
+
+  o  Sequencing sounds no longer causes the STK to enter a bad state.
+
+  o  dres.baseport is set even if dws_DetectHardWare can't find IRQ or DMA.
+
+  o  On Windows Sound System, under Windows, dws_DetectHardWare now works.
+
+  o  Inside the STK, interrupts are disabled where necessary.
+
+  o  dws_Kill is slightly quiter.
+
+  o  FM chip reset is more complete.
+
+  o  Obscure change instrument bug fixed.
+
+  o  On OPTI chipset boards (MAD16), mixer and autodetect now work better.
+
+  o  Auto-initialized DMA mode is used whenever supported by the hardware.
+
+
+Because we're using auto-init DMA mode (don't worry if you don't know what
+this means--it's a detail within the STK), dws_DSetRate makes some noise
+on some sound boards.  We recommend (though don't require) that you change
+rates during periods of silence.
+
+
+
+Additional Docs
+---------------
+
+We wrote this addendum to address common questions raised by users.
+
+
+The STK music playback engine may behave differently than you'd expect.  The
+following is a brief discussion of two bona fide features which may cause
+some unexpected problems.
+
+The STK is extremely sensitive to velocity.  If you play a song and the
+drums or an instrument sound faint (or loud), this is why.  Change the
+output level of the instrument patch, or use your sequencer to bring up
+the volume of the problem track.
+
+The STK will allow notes of bells and strings to "ring out" after they are
+"key released".  If this is causing undesired effects, simply make your
+instrument patches "sustaining".  The STK will shut such notes down
+immediately when they are released.
+
+
+Finding the user's sound board is non-trivial, because the user often
+doesn't even know what brand he owns, let alone its settings.  So the STK
+asks the hardware directly.
+
+It does a good job, but there are some potential problems.  Sometimes, the
+STK may be unable to find one or more sound hardware parameters (almost
+always the problem lies with finding the DMA channel).
+
+The capability field in the dws_DETECTRESULTS struct will tell you if the
+STK found everything it needed for music and for digitized.  If both
+capability flags are set, then you have nothing further to do; music and
+sound will work.
+
+However, only the dws_capability_FM flag might be set.  This may be because
+the user has music-only hardware, or it may be that (for example) the STK
+was unable to find the DMA channel.  To tell the difference, look at the
+baseport field of the dws_DETECTRESULTS struct.  If this field returns as
+either 65535 or 388h, this means that no digitized-capable sound hardware
+is present (or the user's drivers aren't installed).  If this field returns
+with any other value, it means that digitized hardware exists.  Look at the
+digirq and digdma fields.  If either or both of these are set to 65535, it
+means that the STK couldn't autodetect them (and the BLASTER environment
+variable was either not present, or was wrong).
+
+Planning ahead for this, you should have a screen where the user can type in
+port, DMA, and IRQ channel.  Don't require him to do this, but make this
+option available.  Take the settings you are given, and plug them into the
+dws_OVERRIDES struct.  Then call dws_DetectHardWare again.
+
+Don't simply look at the capability field of the dws_DETECTRESULTS.  Its
+boolean flags simply indicate whether or not we figured out everything we
+needed to know about music and digitized sound.  It can't tell you, for
+example, if we have a port and an IRQ level, but no DMA channel.  To
+determine this, look at the baseport, digdma, and digirq fields.  If baseport
+is 65535 (or 388h), then we found no digitized capability.  It's virtually
+certain that none is present.  If baseport is 220h, digdma is 65535 and
+digirq is 7, then we couldn't determine the DMA channel.  Ask the user!  It
+beats dimming out your sound option.
+
+We provide a new example program to registered users: SETUP.C, which handles
+setup of sound settings, and configuration files.  It isn't pretty (using
+just printf and scanf), but it illustrates some important concepts.
+
+
+
+==============================
+If you're upgrading from v1.02
+==============================
+
+Improvements
+------------
+
+The API did not change, and no working code was broken.
+
+
+  o  err.h is now compatible with C++ (the way dws.h and dwt.h were).
+
+  o  On SB16's, IRQ 2/9 is handled more efficiently.
+
+  o  SETUP.C was significantly revamped.
+
+
+Changes
+-------
+
+  o  The typedef for word was changed from unsigned int to unsigned short.
+
+  o  All dws_ and dwt_ functions load DS properly.
+
+  o  _loadds and _saveregs keywords were removed from dws_Update, though it
+     still loads DS and saves all registers.
+
+
+Bugs Fixed
+----------
+
+  o  The EBX register is no longer trashed intermittantly during interrupt.
+
+  o  DMA buffer is no longer repeated during dws_Kill.
+
+  o  Fixed a bug in a call to the Virtual DMA Services (VDS).
+
+  o  Worked around Aztech driver bug which caused DIG to repeat/lock in Win 3.1
+
+
+
+===================
+New for version 2.0
+===================
+
+
+Protected-Mode
+--------------
+
+The STK now supports protected-mode!  Specifically, it works with the
+Watcom/DOS4GW (and PMODE/W) and Borland/PowerPack environments.
+
+The protected-mode version is source-compatible with real-mode.  With the
+exception of such real-mode constructs as _far, real-mode STK C code _IS_
+protected-mode STK C code.
+
+The core of the protected-mode STK implementation is the robust and
+high-quality real-mode STK kernel.  We now provide a real-mode program,
+STKRUN.EXE, which installs the real-mode STK kernel into residence, grabs
+an interrupt vector, and spawns your protected-mode application.  STKRUN.C
+is linked with the new version of DWS.LIB, to form STKRUN.EXE.	This program
+hooks a free interrupt vector, and spawns your protected-mode program.
+Source to it is included in the registered version.
+
+Your protected-mode program is linked with DWSP.LIB, a 32-bit flat-model module
+designed to accept C calls, and pass them down to real-mode via an interrupt
+mechanism.  It handles all real-mode to protected-mode issues transparently to
+the application.
+
+In short, you can make all STK calls as you would from real mode (there are a
+few restrictions, listed below).  The performance of the system is actually
+quite good; the calls down to real-mode don't consume much CPU time.
+
+
+Limitations
+-----------
+
+  o  (new) If music is playing, any failed call to dws_MPlay will stop it.
+
+  o  (new) dwt_ calls are NOT re-entrant in protected-mode.
+
+  o  (old) Each digitized sound must fit in 64K (music files may be larger).
+
+  o  (old) All actively playing sounds and music must fit in real-mode memory.
+
+
+New Errors
+----------
+
+  o  dws_NOMEM - The STK was unable to allocate sufficient real-mode memory.
+
+  o  dws_NOTRESIDENT - The real-mode STK kernel is not resident.
+
+
+
+==============================
+If you're upgrading from v2.00
+==============================
+
+DSP
+---
+
+We now provide some simple DSP for pitch and volume change of DWD files.
+There are two important functions in dwdsp.c:
+
+  word dwdsp_ChngVol(byte *desdwd, byte *srcdwd, word volume);
+  word dwdsp_ChngLen(byte *desdwd, byte *srcdwd, dword newlen);
+
+These calls change the volume of a sound, or its pitch, respectively.
+Each takes a pointer to the destination buffer and the source buffer.
+The third parameter to dwdsp_ChngVol specifies the new volume.	0x100
+is identity, 0x80 is half volume, and 0x200 is twice as loud.  The
+third parameter to dwdsp_ChngLen is the new length, in bytes.  Making
+a sound longer will not only slow it down, but lower its pitch.  Making
+it shorter will raise the pitch.
+
+The volume change code is mathematically correct.  The pitch code, on
+the other hand, is a sleazy hack which works better than it ought to.
+Results range from quite acceptable, to downright lousy, depending on
+listener expectations...
+
+NB: You can change the volume of a sound "in place", that is pass
+  desdwd == srcdwd
+but you can NOT change length in place!
+
+A detailed explanation of the algorithms is beyond the scope of this
+document, but we'll describe basically how they work.
+
+It turns out that the volume can be changed simply by multiplying
+each sample by a constant.  To make a sound twice as loud, double
+each sample.
+
+Pitch change is a little more complex.	The pitch of a sound depends
+on how fast the waveform oscillates.  dwdsp_ChngLen alters the number
+of samples in the sound, thereby (indirectly) determining how fast
+the sound will oscillate.  To make the sound longer, we're doubling
+(or trippling, etc.) each sample.  To make it shorter, we're simply
+removing samples.  This isn't the best technique, but it's fast.  It's
+also easy to code. <g>
+
+This code is also a good guide to the DWD specification.
+
+Run playdsp.exe...
+
+
+Borland Pascal Protected-Mode
+-----------------------------
+
+Like for 32-bit C/C++ DOS extenders, STK support for the 16-bit DOS
+extender in Borland Pascal uses the real-mode program STKRUN.EXE (see
+above in this file, or the full documentation for more details).
+
+Also like for 32-bit DOS extender support, the 16-bit protected-mode
+STK library is a wrapper which acts like an STK extender, accepting
+calls from your protected-mode program, thunking down to the real-mode
+kernel, and thunking any return values back up to protected-mode.
+
+Unlike with the 32-bit C/C++ version, you must allocate memory beneath
+1M for all sounds and songs.  The sample programs playdwd.pas and
+playdwm.pas use the routines in mem.pas to allocate and deallocate
+memory according to this requirement.
+
+mem.pas uses DOSGlobalAlloc and DOSGlobalFree, respectively.
+DOSGlobalAlloc returns both a protected-mode selector and a real-mode
+segment.  The protected-mode STK library needs both values.  We've
+created a record, called dws_ADDRESS, to contain both fields.  In each
+case where an STK function needs the address of a sound/song buffer, it
+expects this structure.
+
+
+Turbo Pascal Real-Mode
+----------------------
+
+To accomodate Borland Pascal protected-mode, we've created a new record
+type, dws_ADDRESS.  The sample programs have been updated to use this.
+For real-mode code, however, dws_ADDRESS reduces to a simple pointer to
+byte (as we've used since version 1.0).  It's just something of which to
+be aware.
+
+
+Bugs Fixed
+----------
+
+  o  Fixed music looping bug (caused perceptible timing miss)
+
+  o  Fixed sequencing bug (caused audible click in some instances)
+
+  o  Phantom sound no longer left behind after one sequencing case
+
+
+Improvements
+------------
+
+  o  DWD data lengths no longer must be an integer number of paragraphs
+
+  o  Added -k option to VOC2DWD.EXE to prevent paragraph alignment
+
+  o  err.c changed; now supports dwdsp in addition to dws errors
+
+
+Corrections to Printed Manual
+-----------------------------
+
+  o  The correct author for GM1.IBK is Tim Melton (not Rob Wallace)
+
+  o  DWD specification was incorrect (the correct specification appear below)
+
+       Byte #  Description
+       ------  -----------
+       00-22   "DiamondWare Digitized\n\0"
+       23      1A (EOF to abort printing of file)
+       24      Major version number
+       25      Minor version number
+       26-29   Unique sound ID (checksum XOR timestamp)
+       30      Reserved
+       31      Compression type (0=none)
+       32-33   Sampling rate (in Hz)
+       34      Number of channels (1=mono, 2=stereo)
+       35      Number of bits per sample (8, 16)
+       36-37   Absolute value of largest sample in file
+       38-41   length of data section (in bytes)
+       42-45   Number of samples (16-bit stereo would be 4 bytes/sample)
+       46-49  *Offset of data section from start of file (in bytes)
+       50-53   Reserved for future expansion (markers)
+       ??-??   Future expansion (heed the 2 offsets, above!)

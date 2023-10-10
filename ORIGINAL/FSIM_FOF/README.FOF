@@ -1,0 +1,149 @@
+_______________________________________________________________________________
+                      Flights of Fantasy, version 1.1
+-------------------------------------------------------------------------------
+ Released: September 26, 1992           GENERAL RELEASE VERSION
+-------------------------------------------------------------------------------
+
+Files contained in archive FOF11.ZIP:
+
+AIRCRAFT.H       4485   9-12-92  8:03p  prototypes for flight model functions
+AIRCRAFT.CPP    21590   9-12-92 10:35p  flight model functions
+BRESNHAM.H        262   8-31-92  9:54p  prototype for line drawing function
+BRESNHAM.ASM     3026   9-02-92  9:48p  line drawing function
+DETECT.H          215   9-01-92 11:44p  prototype for 386/486 detect function
+DETECT.ASM        640   9-01-92 12:06a  386/486 detect function
+DRAWPC.H          127   7-26-92 12:26a  3D system - drawing function protos
+DRAWPC.CPP      11591   6-05-92  4:50p  3D system - drawing functions
+FIX.H             247   6-02-92 10:45a  3D system - degree system constant
+FIX.CPP          3196   6-02-92 10:45a  3D system - degree system const dec.
+FSMAIN.CPP      12667   9-12-92  9:26p  FOF main module
+GAUGES.H         7644   9-04-92 12:20a  prototypes for gauge control functions
+GAUGES.CPP      10475   9-07-92  3:15p  gauge control functions
+HTIMER.H         1757   8-09-92  4:37p  prototype for hi-res timer class
+HTIMER.CPP       7368   8-21-92 10:27p  hi-res timer class
+INPUT.H          1017   8-31-92  1:14a  prototypes for user input functions
+INPUT.CPP       18591   9-10-92 11:43p  user input functions
+INSTSPEC.TXT     5260   1-25-92  3:00p  instrument specifications
+LOADPOLY.H        153   7-26-92 12:27a  3D system - world load function protos
+LOADPOLY.CPP     2795   8-31-92  1:17p  3D system - world load function
+MARK.WLD        16664   9-13-92 12:44a  3D system - world poly definition file
+MATMULT.H          85   9-03-92  2:11a  prototype for 386 matrix mult function
+MATMULT.ASM      1267   9-03-92  2:20a  386 matrix multiplication function
+PCX.H             939   9-02-92  2:24a  prototypes for pcx handling functions
+PCX.CPP          3050   9-03-92 11:05p  pcx handling functions
+POLY.H           2303   8-31-92  1:16p  3D system - polygon handling protos
+POLY.CPP         6993   9-03-92  2:17a  3D system - polygon handling functions
+SBFM.H           8357   7-26-92 10:01p  prototypes for SB FM interface function
+SBFM.CPP        29168   5-25-92  7:50p  SB FM interface functions
+SBFMASM.ASM      2106   5-24-92  1:38p  SB FM assembler functions
+SCREEN.H         1571   9-11-92 12:45a  prototypes for bitmapped gfx functions
+SCREENC.CPP      8122   9-07-92 12:15a  bitmapped gfx functions
+SCREEN.ASM      20857   9-07-92  1:53a  assembler functions for bitmapped gfx
+SNDCNTL.H        1216   9-12-92  4:44p  prototypes for engine sound control
+SNDCNTL.CPP      7148   9-12-92  5:14p  engine sound control functions
+TYPES.H           215   8-02-92 11:54p  global type definitions
+VIEW.H            974   9-03-92  2:28a  3D system - viewing function protos
+VIEW.CPP        15281   9-03-92  2:45a  3D system - viewing functions
+VIEWCNTL.H        910   9-12-92  7:55p  prototypes for aircraft view control
+VIEWCNTL.CPP    17240   9-12-92  9:23p  aircraft view control functions
+FS.EXE          79252   9-12-92 10:35p  flight simulator executable file
+FS.PRJ           9574   9-12-92 11:03p  borland C++ 3.1 project file
+CKPIT01.PCX     24917   9-11-92 12:27a  cockpit view image file
+TITLE6.PCX      41241   8-30-92 10:39p  title screen image file
+TAIL.PCX         4523   8-18-92 12:20a  rear view image file
+SIDEVIEW.PCX    16926   8-22-92  3:10a  side view image file
+DOODADS.PCX      5303   9-03-92 11:39p  misc. bitmaps image file
+     516,047 bytes in 50 file(s)
+
+
+Compilation instructions:
+
+Compile the program in large model using the supplied project file. If MAKE
+is preferred a .MAK file for the program may be created using Borland's
+PRJ2MAK utility. At the DOS prompt type:
+
+        PRJ2MAK FOF.PRJ
+
+Assembler transfers are setup in the project file with the default transfer
+options. There should be no need to change these.
+
+Pre-compiled headers are on in the supplied project file. The FS.SYM file will
+require at least 1 meg of disk space.
+
+Running the program:
+
+FOF.EXE (or FS.EXE if this is a BETA release) will accept 1 command line
+parameter. Type the option specifier after the EXE name with at least one
+space character seperating. Allowable parameters are:
+
+        W or w     : start FOF in world walk mode.
+        D or d     : start FOF in debugging dump mode.
+        H, h, or ? : display a help screen of program commands
+
+Operating modes:
+
+World walk: This mode is used for moving around the 3D world while designing
+scenery. The aircraft cockpit is not displayed, and the flight dynamics part
+of the flight model is disabled. All flight control keys operate as they do
+in flight mode, except that the throttle key controls forward motion as
+follows: + increase forward motion, - decreases forward motion. Maximum
+forward motion is 100,000 feet per minute, and minimum forward motion is 0.
+
+Debugging dump: In this mode the program displays a realtime text-mode screen
+dump of the more important internal parameters.
+
+Help mode: In this mode the program dumps a screenful of command key data
+to the screen, then exits.
+
+Flight mode: This is the normal operating mode, in use when the program is
+started with no command line parameters.
+
+Flight controls: (KEYBOARD)
+                 grey +,-              : increase/decrease throttle setting
+                 grey up/dn arrow keys : pitch up/down
+                 grey rt/lf arrow keys : roll right/left
+                 I,i                   : ignition on/off toggle
+                 S,s                   : sound on/off toggle
+                 B,b                   : wheel brake on/off toggle
+                 F1                    : look forward
+                 F2                    : look right
+                 F3                    : look behind
+                 F4                    : look left
+                 ESC                   : exit program
+
+                 (JOYSTICK)
+                 The joystick controls aircraft attitude when in use. Moving
+                 the stick right and left controls bank, while movin it
+                 forward and backward controls pitch.
+
+Copyright notice and disclaimer:
+
+   The book "Flights of Fantasy" is copyright (c), 1992, Christopher Lampton.
+
+   The program "FOF.EXE", all related C++ and assembler source code, object
+   modules, image files, and documentation contained in the archive file
+   FOF11b.ZIP are copyright (c), 1992, Christopher Lampton and Mark Betz.
+   Copyrights on the aforementioned program, source and image files are
+   expressly waived, providing that no part of said files or images is used
+   in any program offered for commercial sale, or packaged on any disk which
+   is offered for sale at a price exceeding $5.00 US. Furthermore, no version
+   of this program which has been modified may be distributed in any form
+   which contains the original title screen and documentation, or which does
+   not contain all source files required to compile and run the program.
+   Users wishing to distribute modified versions of this program must supply
+   a new title screen and documentation.
+
+   The image used as a background in the title screen is "Clouds #1, Pompton
+   Lake, New Jersey", copyright (c) 1983, Richard M. Coda. Used by express
+   permission of the artist. All rights reserved. This title screen may not
+   be redistributed in any modified version of this program.
+
+   The program "FOF.EXE", and related source code and other files, is
+   distibuted "as is", without warranty of any kind, express or implied.
+   The authors, Christopher Lampton and Mark Betz (Betz Associates)
+   expressely disclaim responsibility for any damages which might occur
+   due to use of the original, or any modified version of this program.
+
+
+
+

@@ -1,0 +1,746 @@
+
+*** World definition file ***
+
+ 26,  * Number of objects in file
+
+* ************CROSS WITH PYRAMIDS, CUBES AND GROUND SQUARES*************
+* ************OBJECT NO: 0 TO 16****************************************
+
+* OBJECT #0 (CUBE):
+
+	 0,-20,-800,		 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+	 8,  * Number of vertices in object #0
+
+		 * Vertices for object 0:
+
+			-10,10,-10,	 * Vertex #0    X negative left, positive right
+			10,10,-10,	 * Vertex #1    Y negative top, positive below
+			10,10,10,		 * Vertex #2    Z positive into the screen
+			-10,10,10,	 * Vertex #3
+			-10,-10,-10, * Vertex #4
+			10,-10,-10,	 * Vertex #5
+			10,-10,10,	 * Vertex #6
+			-10,-10,10,	 * Vertex #7
+
+		6,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			4, 0,1,5,4, 1,     * Number of edges, followed by vertex numbers,
+			4, 5,6,7,4, 2,     * which are the ordinal positions of the
+			4, 6,2,3,7, 3,     * vertices in the previous list, followed
+			4, 2,1,0,3, 4,     * by palette color.
+			4, 2,6,5,1, 5,
+			4, 4,7,3,0, 6,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #1 (PYRAMID):
+
+	 0,-30,800,				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 3,							  * Scale factor of object
+
+	 5,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+			-10,10,-10,	* Vertex #0
+			10,10,-10,	* Vertex #1
+			0,-10,0,		* Vertex #2
+			10,10,10,		* Vertex #3
+			-10,10,10,	* Vertex #4
+
+		5,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+			3, 1,2,0, 1,
+			3, 3,2,1, 2,
+			3, 4,2,3, 3,
+			3, 0,2,4, 4,
+			4, 4,3,1,0, 5,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #2 (SQUARE)
+
+	 0,0,0,   				  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #3 (SQUARE)
+
+	 0,0,250,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #4 (SQUARE)
+
+	 0,0,-250,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #5 (SQUARE)
+
+	 -250,0,0,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #6 (SQUARE)
+
+	 250,0,0,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		0, 				* No, don't perform backface removal
+
+* OBJECT #7 (SQUARE)
+
+	 0,0,500,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #8 (SQUARE)
+
+	 0,0,-500,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #9 (SQUARE)
+
+	 -500,0,0,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #10 (SQUARE)
+
+	 500,0,0,   				* X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 10,							  * Scale factor of object
+
+	 4,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-10,0,10,	  * Vertex #0
+			10,0,10,	  * Vertex #1
+			10,0,-10,		* Vertex #2
+			-10,0,-10,	* Vertex #3
+
+		1,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 0,1,2,3, 2,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #11 (CUBE):
+
+	 800,-20,0,				 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+	 8,  * Number of vertices in object #0
+
+		 * Vertices for object 0:
+
+			-10,10,-10,	 * Vertex #0
+			10,10,-10,	 * Vertex #1
+			10,10,10,		 * Vertex #2
+			-10,10,10,	 * Vertex #3
+			-10,-10,-10, * Vertex #4
+			10,-10,-10,	 * Vertex #5
+			10,-10,10,	 * Vertex #6
+			-10,-10,10,	 * Vertex #7
+
+		6,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			4, 0,1,5,4, 1,
+			4, 5,6,7,4, 2,
+			4, 6,2,3,7, 3,
+			4, 2,1,0,3, 4,
+			4, 2,6,5,1, 5,
+			4, 4,7,3,0, 6,
+
+		1, 				* Yes, we want backplanes removed
+
+* ************AIRPORT********************************************************
+* ************OBJECT NO: 12**************************************************
+
+* OBJECT #12 (AIRPORT)
+
+	 0,0,-7000,   				  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					    * X,Y,Z rotation of object
+	 25,					* Scale factor of object
+
+	 12,  * Number of vertices in object #2
+
+		 * Vertices for object 2:
+
+			-5,0,55,	  * Vertex #0
+			5,0,55,	    * Vertex #1
+			5,0,5,		  * Vertex #2
+			55,0,5,	    * Vertex #3
+			50,0,-5,
+			5,0,-5,
+			5,0,-75,
+			-5,0,-75,
+			-5,0,-5,
+			-55,0,-5,
+			-50,0,5,
+			-5,0,5,
+
+		3,	* Number of polygons for object 2
+
+			* Polygons for object 2:
+
+			4, 7,6,1,0,   1,
+			4, 5,4,3,2,   1,
+			4, 9,8,11,10, 1,
+
+		1, 				* Yes, perform backface removal
+
+* ************CLUSTER OF CUBES AND PYRAMIDS NEAR AIRPORT*********************
+* ************OBJECT NO: 13 TO 16********************************************
+
+* OBJECT #13 (CUBE):
+
+	 4000,-20, 5500,    	 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+	 8,  * Number of vertices in object #0
+
+		 * Vertices for object 0:
+
+			-10,10,-10,	 * Vertex #0
+			10,10,-10,	 * Vertex #1
+			10,10,10,		 * Vertex #2
+			-10,10,10,	 * Vertex #3
+			-10,-10,-10, * Vertex #4
+			10,-10,-10,	 * Vertex #5
+			10,-10,10,	 * Vertex #6
+			-10,-10,10,	 * Vertex #7
+
+		6,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			4, 0,1,5,4, 1,
+			4, 5,6,7,4, 2,
+			4, 6,2,3,7, 3,
+			4, 2,1,0,3, 4,
+			4, 2,6,5,1, 5,
+			4, 4,7,3,0, 6,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #14 (CUBE):
+
+	 4000,-20,4500,	    	 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+	 8,  * Number of vertices in object #0
+
+		 * Vertices for object 0:
+
+			-10,10,-10,	 * Vertex #0
+			10,10,-10,	 * Vertex #1
+			10,10,10,		 * Vertex #2
+			-10,10,10,	 * Vertex #3
+			-10,-10,-10, * Vertex #4
+			10,-10,-10,	 * Vertex #5
+			10,-10,10,	 * Vertex #6
+			-10,-10,10,	 * Vertex #7
+
+		6,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			4, 0,1,5,4, 1,
+			4, 5,6,7,4, 2,
+			4, 6,2,3,7, 3,
+			4, 2,1,0,3, 4,
+			4, 2,6,5,1, 5,
+			4, 4,7,3,0, 6,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #15 (PYRAMID):
+
+	 3900,-30, 4800,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 3,							  * Scale factor of object
+
+	 5,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+			-10,10,-10,	* Vertex #0
+			10,10,-10,	* Vertex #1
+			0,-10,0,		* Vertex #2
+			10,10,10,		* Vertex #3
+			-10,10,10,	* Vertex #4
+
+		5,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+			3, 1,2,0, 1,
+			3, 3,2,1, 2,
+			3, 4,2,3, 3,
+			3, 0,2,4, 4,
+			4, 4,3,1,0, 5,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #16 (PYRAMID):
+
+	 3200,-30, 4800,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 3,							  * Scale factor of object
+
+	 5,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+			-10,10,-10,	* Vertex #0
+			10,10,-10,	* Vertex #1
+			0,-10,0,		* Vertex #2
+			10,10,10,		* Vertex #3
+			-10,10,10,	* Vertex #4
+
+		5,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+			3, 1,2,0, 1,
+			3, 3,2,1, 2,
+			3, 4,2,3, 3,
+			3, 0,2,4, 4,
+			4, 4,3,1,0, 5,
+
+		1, 				* Yes, we want backplanes removed
+
+* ************MOUNTAIN RANGE SW OF CROSS*************************************
+* ************OBJECT NO: 17 to
+
+* OBJECT #17 (BROWN MOUNTAIN):
+
+	 -8000,0, -8000,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 2,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,20,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 208,
+        3, 5,2,1, 209,
+        3, 5,3,2, 210,
+        3, 5,4,3, 211,
+        3, 0,4,6, 212,
+        3, 6,5,1, 213,
+        3, 4,5,6, 214,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #18 (BROWN MOUNTAIN):
+
+	 -7350,0, -7500,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 1,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,0,
+        0,-480,-40,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 214,
+        3, 5,2,1, 213,
+        3, 5,3,2, 212,
+        3, 5,4,3, 211,
+        3, 0,4,6, 210,
+        3, 6,5,1, 209,
+        3, 4,5,6, 208,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #19 (BROWN MOUNTAIN):
+
+	 -7300,0, -8300,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 1,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,0,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 211,
+        3, 5,2,1, 212,
+        3, 5,3,2, 213,
+        3, 5,4,3, 214,
+        3, 0,4,6, 215,
+        3, 6,5,1, 216,
+        3, 4,5,6, 217,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #20 (GREY MOUNTAIN):
+
+	 -9500,0, -9500,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 4,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,280,
+        180,0,-150,
+        0,-520,0,
+        0,-470,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 16,
+        3, 5,2,1, 17,
+        3, 5,3,2, 18,
+        3, 5,4,3, 19,
+        3, 0,4,6, 20,
+        3, 6,5,1, 21,
+        3, 4,5,6, 22,
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #21 (BROWN MOUNTAIN):
+
+	 -8000,0, -9500,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 2,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,20,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 214,
+        3, 5,2,1, 215,
+        3, 5,3,2, 216,
+        3, 5,4,3, 217,
+        3, 0,4,6, 218,
+        3, 6,5,1, 212,
+        3, 4,5,6, 213,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #22 (BROWN MOUNTAIN):
+
+	 -8700,0,-7600,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					  * X,Y,Z rotation of object
+	 1,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,0,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 211,
+        3, 5,2,1, 212,
+        3, 5,3,2, 213,
+        3, 5,4,3, 214,
+        3, 0,4,6, 215,
+        3, 6,5,1, 216,
+        3, 4,5,6, 217,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #23 (BROWN MOUNTAIN):
+
+	 -9700,0, -7200,		  * X,Y,Z coordinates of object's local origin
+	 0,235,0,					  * X,Y,Z rotation of object
+	 3,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,20,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 208,
+        3, 5,2,1, 209,
+        3, 5,3,2, 210,
+        3, 5,4,3, 211,
+        3, 0,4,6, 212,
+        3, 6,5,1, 213,
+        3, 4,5,6, 214,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #24 (GREY MOUNTAIN):
+
+	 -11800,0, -10000,		  * X,Y,Z coordinates of object's local origin
+	 0,0,0,					          * X,Y,Z rotation of object
+	 5,							          * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,280,
+        180,0,-150,
+        0,-520,0,
+        0,-470,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 22,
+        3, 5,2,1, 21,
+        3, 5,3,2, 20,
+        3, 5,4,3, 19,
+        3, 0,4,6, 18,
+        3, 6,5,1, 17,
+        3, 4,5,6, 16,
+
+		1, 				* Yes, we want backplanes removed
+
+* OBJECT #25 (BROWN MOUNTAIN):
+
+	 -11500,0, -7400,		  * X,Y,Z coordinates of object's local origin
+	 0,235,0,					  * X,Y,Z rotation of object
+	 3,							  * Scale factor of object
+
+	 7,  * Number of vertices in object #1
+
+		 * Vertices for object 1:
+
+        0,0,-400,
+        -320,0,0,
+        -120,0,400,
+        160,0,260,
+        180,0,-140,
+        0,-500,20,
+        0,-480,-20,
+		7,	* Number of polygons for object 1
+
+			* Polygons for object 1:
+
+        3, 6,1,0, 208,
+        3, 5,2,1, 209,
+        3, 5,3,2, 210,
+        3, 5,4,3, 211,
+        3, 0,4,6, 212,
+        3, 6,5,1, 213,
+        3, 4,5,6, 214,
+
+		1, 				* Yes, we want backplanes removed

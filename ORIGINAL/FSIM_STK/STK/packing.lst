@@ -1,0 +1,58 @@
+Complete list of files for DiamondWare's Sound ToolKit v2.20, shareware:
+
+PACKING.LST	the file you are reading now
+
+LICENSE.DOC	the shareware license agreement for the STK
+ORDER.FRM	order form to send by mail
+FILE_ID.DIZ	summary for bulletin boards
+
+READ.ME 	up to date info, plus complete list of changes since v1.00
+STKMAN.DOC	instruction manual, may be copied to printer
+
+DWS.BI		BASIC include file for sound
+DWT.BI		BASIC include file for DWT (timer)
+ERR.BI		BASIC include file for sample error handler
+ERR.BAS 	BASIC source code to sample error handler
+FINDSB.BAS	BASIC source code to sample find sound board program
+PLAYDWM.BAS	BASIC source code to sample play music program
+PLAYDWD.BAS	BASIC source code to sample play sound program
+
+DWS.H		C include file for sound
+DWT.H		C include file for DWT (timer)
+ERR.H		C include file for sample error handler
+DWDSP.H 	C include file for simple DSP code
+ERR.C		C source code to sample error handler
+DWDSP.C 	C source code for simple DSP code
+FINDSB.C	C source code to sample find sound board program
+PLAYDWM.C	C source code to sample play music program
+PLAYDWD.C	C source code to sample play sound program
+PLAYDSP.C	C source code to sample play sound with DSP program
+
+DWS.PAS 	Pascal human-readable version for DWS unit
+ERR.PAS 	Pascal source code to sample error handler
+FINDSB.PAS	Pascal source code to sample find sound board program
+PLAYDWM.PAS	Pascal source code to sample play music program
+PLAYDWD.PAS	Pascal source code to sample play sound program
+MEM.PAS 	Pascal memory allocation/deallocation routines
+
+VOC2DWD.EXE	program to convert .VOC files to .DWD format
+MID2DWM.EXE	program to convert .MID files to .DWM format
+FINDSB.EXE	sample find sound board program
+PLAYDWM.EXE	sample play music program
+PLAYDWD.EXE	sample play sound program
+PLAYDSP.EXE	sample play sound w/DSP program
+
+GM1.IBK 	General MIDI instrument patches for FM synthesizer
+
+SAMPLE.DWD	sample sound in .DWD format
+SAMPLE.DWM	sample song in .DWM format
+SAMPLE.MID	sample song in .MID format
+SAMPLE.VOC	sample sound in .VOC format
+
+DWS.LIB 	real-mode library
+DWSP.LIB	protected-mode library
+DWS6.TPU	Turbo Pascal version 6 unit
+DWS7.TPU	Turbo Pascal version 7 unit
+DWS.TPP 	Borland Pascal protected-mode unit
+
+STKRUN.EXE	sound kernel, must run before p-mode program calls sound

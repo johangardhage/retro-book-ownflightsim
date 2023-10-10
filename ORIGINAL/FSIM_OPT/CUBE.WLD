@@ -1,0 +1,40 @@
+
+*** World definition file ***
+
+ 1,  * Number of objects in file
+
+* ************CROSS WITH PYRAMIDS, CUBES AND GROUND SQUARES*************
+* ************OBJECT NO: 0 TO 16****************************************
+
+* OBJECT #0 (CUBE):
+
+	 0,-20,-4800,		 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+	 8,  * Number of vertices in object #0
+
+		 * Vertices for object 0:
+
+			-10,10,-10,	 * Vertex #0    X negative left, positive right
+			10,10,-10,	 * Vertex #1    Y negative top, positive below
+			10,10,10,		 * Vertex #2    Z positive into the screen
+			-10,10,10,	 * Vertex #3
+			-10,-10,-10, * Vertex #4
+			10,-10,-10,	 * Vertex #5
+			10,-10,10,	 * Vertex #6
+			-10,-10,10,	 * Vertex #7
+
+		6,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			4, 0,1,5,4, 1,     * Number of edges, followed by vertex numbers,
+			4, 5,6,7,4, 2,     * which are the ordinal positions of the
+			4, 6,2,3,7, 3,     * vertices in the previous list, followed
+			4, 2,1,0,3, 4,     * by palette color.
+			4, 2,6,5,1, 5,
+			4, 4,7,3,0, 6,
+
+		1, 				* Yes, we want backplanes removed
+

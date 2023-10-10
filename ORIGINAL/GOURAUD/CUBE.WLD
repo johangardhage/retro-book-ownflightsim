@@ -1,0 +1,34 @@
+
+10,-10,10,  * Light source direction
+25,  * Ambient light 45% of light source
+
+ 1,  * Number of unshaded colors
+      0,0,0,  * Black
+ 3,  * Number of shaded colors
+      63,63,63,  * WHITE
+	  0,63,63,   * CYAN
+	  63,0,63,  * MAGENTA
+******************************      
+1, * number of objects
+* object 0
+	 0,0,-800,		 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+8, * number of vertices
+ 20, 20, 20, * vertex0
+ 20,-20, 20, * vertex1
+-20,-20, 20, * vertex2
+-20, 20, 20, * vertex3
+ 20, 20,-20, * vertex4
+ 20,-20,-20, * vertex5
+-20,-20,-20, * vertex6
+-20, 20,-20, * vertex7
+6, * number of polygons
+4,3,2,1,0,1, * polygon 0
+4,4,5,6,7,2, * polygon 1
+4,4,0,1,5,2, * polygon 2
+4,3,7,6,2,3, * polygon 3
+4,7,3,0,4,3, * polygon 4
+4,5,1,2,6,3, * polygon 5
+1,   * convex
+

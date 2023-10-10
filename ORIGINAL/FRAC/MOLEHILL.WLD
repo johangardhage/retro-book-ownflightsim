@@ -1,0 +1,44 @@
+
+*** Object definition file ***
+
+10,-20,10,  * Light source direction
+20,  * Ambient light 20% of light source
+
+ 1,  * Number of unshaded colors
+      0,0,0,  * Black
+ 3,  * Number of shaded colors
+      63,0,0,  * Red
+      0,63,0,  * Green
+      0,0,63,  * Blue
+      
+ 1,  * Number of objects in file
+
+* OBJECT #0 (PYRAMID):
+
+	 0,0,-800,		 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+
+
+   5,  * Number of vertices in object #0
+
+     * Vertices for object 0:
+
+   		-10,10,-10,	* Vertex #0
+			10,10,-10,	* Vertex #1
+			0,-10,0,		* Vertex #2
+			10,10,10,		* Vertex #3
+			-10,10,10,	* Vertex #4
+
+		4,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			3, 1,2,0, 2,
+			3, 3,2,1, 3,
+			3, 4,2,3, 2,
+			3, 0,2,4, 3,
+*		4, 4,3,1,0, 1,
+
+			1, 				* Yes, it's a convex polyhedron
+

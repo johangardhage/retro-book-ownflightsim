@@ -1,0 +1,29 @@
+
+*** Object definition file ***
+
+ 1,  * Number of objects in file
+
+* OBJECT #0 (PYRAMID):
+
+   5,  * Number of vertices in object #0
+
+     * Vertices for object 0:
+
+   		-10,10,-10,	* Vertex #0
+			10,10,-10,	* Vertex #1
+			0,-10,0,		* Vertex #2
+			10,10,10,		* Vertex #3
+			-10,10,10,	* Vertex #4
+
+		4,	* Number of polygons for object 0
+
+			* Polygons for object 0:
+
+			3, 1,2,0, 100, * 2,
+			3, 3,2,1, 100, * 2,
+			3, 4,2,3, 100, * 2,
+			3, 0,2,4, 100, * 2,
+*      4, 4,3,1,0,100, * 5,
+
+			1 				* Yes, it's a convex polyhedron
+

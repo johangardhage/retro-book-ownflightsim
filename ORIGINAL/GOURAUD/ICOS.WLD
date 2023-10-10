@@ -1,0 +1,49 @@
+
+10,-10,10,  * Light source direction
+25,  * Ambient light 25% of light source
+
+ 1,  * Number of unshaded colors
+      0,0,0,  * Black
+ 1,  * Number of shaded colors
+      63,0,0,  * Red
+******************************      
+1, * number of objects
+* object 0
+	 0,0,-800,		 * X,Y,Z coordinates of object's local origin
+	 0,0,0,					 * X,Y,Z rotation of object
+	 2,							 * Scale factor of object
+12, * number of vertices
+12,20,0, * vertex0
+-12,20,0, * vertex1
+-12,-20,0, * vertex2
+12,-20,0, * vertex3
+0,12,20, * vertex4
+0,-12,20, * vertex5
+0,-12,-20, * vertex6
+0,12,-20, * vertex7
+20,0,12, * vertex8
+20,0,-12, * vertex9
+-20,0,-12, * vertex10
+-20,0,12, * vertex11
+20, * number of polygons
+3,0,1,4,1, * polygon0
+3,1,0,7,1, * polygon1
+3,3,2,6,1, * polygon2
+3,2,3,5,1, * polygon3
+3,8,9,0,1, * polygon4
+3,9,8,3,1, * polygon5
+3,10,11,1,1, * polygon6
+3,11,10,2,1, * polygon7
+3,6,7,9,1, * polygon8
+3,7,6,10,1, * polygon9
+3,4,5,8,1, * polygon10
+3,5,4,11,1, * polygon11
+3,9,7,0,1, * polygon12
+3,8,0,4,1, * polygon13
+3,11,4,1,1, * polygon14
+3,10,1,7,1, * polygon15
+3,9,3,6,1, * polygon16
+3,8,5,3,1, * polygon17
+3,11,2,5,1, * polygon18
+3,10,6,2,1, * polygon19
+1,   * convex
