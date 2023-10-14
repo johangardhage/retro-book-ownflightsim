@@ -28,15 +28,15 @@ struct clip_type {
 };
 
 // Global transformation arrays:
-long matrix[4][4];         // Master transformation matrix
-long smat[4][4];				    // Scaling matrix
-long zmat[4][4];				    // Z rotation matrix
-long xmat[4][4];				    // X rotation matrix
-long ymat[4][4];				    // Y rotation matrix
-long tmat[4][4];           // Translation matrix
-long rmat[4][4];					  // Perspective matrix
+int matrix[4][4];         // Master transformation matrix
+int smat[4][4];				    // Scaling matrix
+int zmat[4][4];				    // Z rotation matrix
+int xmat[4][4];				    // X rotation matrix
+int ymat[4][4];				    // Y rotation matrix
+int tmat[4][4];           // Translation matrix
+int rmat[4][4];					  // Perspective matrix
 
-void matmult(long result[4][4], long mat1[4][4], long mat2[4][4])
+void matmult(int result[4][4], int mat1[4][4], int mat2[4][4])
 {
 	// Multiply matrix MAT1 by matrix MAT2, returning the result in RESULT
 	for (int i = 0; i < 4; i++) {
@@ -46,7 +46,7 @@ void matmult(long result[4][4], long mat1[4][4], long mat2[4][4])
 	}
 }
 
-void matcopy(long dest[4][4], long source[4][4])
+void matcopy(int dest[4][4], int source[4][4])
 {
 	// Copy matrix SOURCE to matrix DEST
 	for (int i = 0; i < 4; i++) {
@@ -68,7 +68,7 @@ void inittrans()
 void scale(int sf)
 {
 	// shift the value for storage
-	long  val = long(sf) << SHIFT;
+	int  val = int(sf) << SHIFT;
 
 	// Initialize scaling matrix:
 	smat[0][0] = val; smat[0][1] = 0; smat[0][2] = 0; smat[0][3] = 0;
@@ -77,7 +77,7 @@ void scale(int sf)
 	smat[3][0] = 0; smat[3][1] = 0; smat[3][2] = 0;  smat[3][3] = ONE;
 
 	// Concatenate with master matrix:
-	long mat[4][4];
+	int mat[4][4];
 	matmult(mat, smat, matrix);
 	matcopy(matrix, mat);
 }
@@ -85,13 +85,13 @@ void scale(int sf)
 void scale(float xs, float ys, float zs)
 {
 	// Initialize scaling matrix:
-	smat[0][0] = (long)(zs * SHIFT_MULT); smat[0][1] = 0; smat[0][2] = 0; smat[0][3] = 0;
-	smat[1][0] = 0; smat[1][1] = (long)(ys * SHIFT_MULT); smat[1][2] = 0; smat[1][3] = 0;
-	smat[2][0] = 0; smat[2][1] = 0; smat[2][2] = (long)(xs * SHIFT_MULT); smat[2][3] = 0;
+	smat[0][0] = (int)(zs * SHIFT_MULT); smat[0][1] = 0; smat[0][2] = 0; smat[0][3] = 0;
+	smat[1][0] = 0; smat[1][1] = (int)(ys * SHIFT_MULT); smat[1][2] = 0; smat[1][3] = 0;
+	smat[2][0] = 0; smat[2][1] = 0; smat[2][2] = (int)(xs * SHIFT_MULT); smat[2][3] = 0;
 	smat[3][0] = 0; smat[3][1] = 0; smat[3][2] = 0;  smat[3][3] = ONE;
 
 	// Concatenate with master matrix:
-	long mat[4][4];
+	int mat[4][4];
 
 	matmult(mat, smat, matrix);
 	matcopy(matrix, mat);
@@ -104,7 +104,7 @@ void reflect(int xr, int yr, int zr)
 	rmat[2][0] = 0; rmat[2][1] = 0; rmat[2][2] = zr >> SHIFT; rmat[2][3] = 0;
 	rmat[3][0] = 0; rmat[3][1] = 0; rmat[3][2] = 0; rmat[3][3] = ONE;
 
-	long mat[4][4];
+	int mat[4][4];
 
 	matmult(mat, matrix, rmat);
 	matcopy(matrix, mat);
@@ -116,8 +116,8 @@ void rotate(int ax, int ay, int az)
 	// AX radians on the X axis, AY radians on the Y axis and
 	// AZ radians on the Z axis
 
-	long mat1[4][4];
-	long mat2[4][4];
+	int mat1[4][4];
+	int mat2[4][4];
 
 	// Initialize X rotation matrix:
 	xmat[0][0] = ONE;  xmat[0][1] = 0;        xmat[0][2] = 0;       xmat[0][3] = 0;
@@ -152,10 +152,10 @@ void translate(int xt, int yt, int zt)
 	tmat[0][0] = ONE;      tmat[0][1] = 0;      tmat[0][2] = 0;      tmat[0][3] = 0;
 	tmat[1][0] = 0;        tmat[1][1] = ONE;    tmat[1][2] = 0;      tmat[1][3] = 0;
 	tmat[2][0] = 0;        tmat[2][1] = 0;      tmat[2][2] = ONE;    tmat[2][3] = 0;
-	tmat[3][0] = (long)xt << SHIFT; tmat[3][1] = (long)yt << SHIFT; tmat[3][2] = (long)zt << SHIFT; tmat[3][3] = ONE;
+	tmat[3][0] = (int)xt << SHIFT; tmat[3][1] = (int)yt << SHIFT; tmat[3][2] = (int)zt << SHIFT; tmat[3][3] = ONE;
 
 	// Concatenate with master matrix:
-	long mat[4][4];
+	int mat[4][4];
 
 	matmult(mat, matrix, tmat);
 	matcopy(matrix, mat);
