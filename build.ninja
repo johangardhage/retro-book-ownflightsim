@@ -12,6 +12,8 @@ rule cc
 
 build $builddir/gourdemo: cc $srcdir/gourdemo.cpp
 build $builddir/polydemo: cc $srcdir/polydemo.cpp
+build $builddir/textdemo: cc $srcdir/textdemo.cpp
 
 build gourdemo: phony $builddir/gourdemo
 build polydemo: phony $builddir/polydemo
+build textdemo: phony $builddir/textdemo
