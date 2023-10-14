@@ -10,6 +10,8 @@ rule cc
 #  command = $cc $in $windows -o $out.
   description = Building executable $out
 
+build $builddir/gourdemo: cc $srcdir/gourdemo.cpp
 build $builddir/polydemo: cc $srcdir/polydemo.cpp
 
+build gourdemo: phony $builddir/gourdemo
 build polydemo: phony $builddir/polydemo
